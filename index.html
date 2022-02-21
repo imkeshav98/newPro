@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+</head>
+<style>
+  #container{
+    display: flex;
+  }
+  #main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex: 9;
+    border: 1px solid black;
+  }
+  #sidebar{
+    flex: 1;
+    border: 1px solid black;
+    padding: 1em;
+  }
+
+  .news {
+    width: 15em;
+    border: 1px solid green;
+    margin-bottom: 1.5em;
+  }
+
+  .news img{
+    max-width: 100%;
+  }
+  .logo span {
+    color: green;
+    font-weight: bolder
+    ;
+  }
+  .logo {
+    font-weight: bolder;
+    margin: 2em;
+  }
+</style>
+
+<body>
+  <div id="container">
+    <div id="sidebar">
+      <!--DO NOT CHANGE THIS ID's-->
+      <!--Append the horizontal navbar(sidebar) here only-->
+    </div>
+
+    <div id="main">
+      <!--DO NOT CHANGE THIS ID's-->
+      <!--Append top headlines from india here only-->
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script type="module">
+  // create UI Components and export
+  // Import Navbar
+  // Append
+  // Make API Call
+
+  // Importing sidebar
+  import sidebar from './components/sidebar.js';
+  import {apiCall, appendArticles} from './scripts/main.js';
+  import storeSearchterm from'./scripts/search.js'
+
+  // Append Sidebar
+  let sidebar_div = document.getElementById("sidebar");
+  sidebar_div.innerHTML = sidebar()
+
+  // Make an API Call
+  let url = "https://shrouded-earth-23381.herokuapp.com/api/headlines/india"
+  let res = await apiCall(url)
+  console.log(res);
+
+  // appending data in index.html
+  let main = document.getElementById('main');
+  appendArticles(res,main)
+
+  // adding search fuctionality
+  let search = document.getElementById('searchbar');
+   search.addEventListener('keypress', (event)=>{
+     if(event.keyCode == 13){
+       let input_value = document.getElementById('searchbar').value;
+       storeSearchterm(input_value);
+       window.location.href = "search.html";
+     }
+   });
+
+</script>
